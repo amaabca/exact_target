@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <exacttarget>
+    <system>
+      <subscriber>
+        <error>111</error>
+        <error-description>No attributes provided</error-description>
+      </subscriber>
+    </system>
+  </exacttarget>
+</hash>

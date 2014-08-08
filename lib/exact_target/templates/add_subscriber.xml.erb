@@ -1,0 +1,14 @@
+<exacttarget>
+  <authorization>
+    <username><%= ExactTarget.configuration.username %></username>
+    <password><%= ExactTarget.configuration.password %></password>
+  </authorization>
+  <system>
+    <system_name>subscriber</system_name>
+    <action>add</action>
+    <search_type>listid</search_type>
+    <search_value><%= ExactTarget.configuration.list_id %></search_value>
+    <search_value2><%= @params[:email] %></search_value2>
+    <%= @params[:attributes].to_xml(dasherize: false, skip_instruct: true, root: :values) %>
+  </system>
+</exacttarget>
