@@ -1,0 +1,13 @@
+<exacttarget>
+  <authorization>
+    <username><%= ExactTarget.configuration.username %></username>
+    <password><%= ExactTarget.configuration.password %></password>
+  </authorization>
+  <system>
+    <system_name>subscriber</system_name>
+    <action>delete</action>
+    <search_type>listid</search_type>
+    <search_value><%= ExactTarget.configuration.list_id %></search_value>
+    <search_value2><%= @email %></search_value2>
+  </system>
+</exacttarget>

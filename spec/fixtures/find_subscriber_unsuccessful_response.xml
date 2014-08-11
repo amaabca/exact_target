@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<exacttarget>
+  <system>
+    <subscriber>
+      <error>1</error>
+      <error_description>Subscriber not found with ListID = 666 Email Address = batman@exmaple.com</error_description>
+    </subscriber>
+  </system>
+</exacttarget>

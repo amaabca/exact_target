@@ -1,5 +1,5 @@
+require "rest_client"
+require "active_support/all"
 require "exact_target/version"
-
-module ExactTarget
-  # Your code goes here...
-end
+require "exact_target/configuration"
+require "exact_target/api"

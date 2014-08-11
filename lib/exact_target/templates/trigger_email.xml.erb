@@ -1,0 +1,19 @@
+<exacttarget>
+  <authorization>
+    <username><%= ExactTarget.configuration.username %></username>
+    <password><%= ExactTarget.configuration.password %></password>
+  </authorization>
+  <system>
+    <system_name>triggeredsend</system_name>
+    <action>add</action>
+    <TriggeredSend+xmlns:xsi='http://www.w3.org/2001/XMLSchemainstance'+xmlns:xsd='http://www.w3.org/2001/XMLSchema'+xmlns='http://exacttarget.com/wsdl/partnerAPI'>
+      <TriggeredSendDefinition>
+        <CustomerKey><%= @params[:email_type] %></CustomerKey>
+      </TriggeredSendDefinition>
+      <Subscribers>
+        <EmailAddress><%= @params[:email] %></EmailAddress>
+        <SubscriberKey><%= @params[:subscriber_id] %></SubscriberKey>
+      </Subscribers>
+    </TriggeredSend>
+  </system>
+</exacttarget>
