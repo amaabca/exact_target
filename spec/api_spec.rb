@@ -19,6 +19,16 @@ describe ExactTarget::Api do
       response: File.read(File.join("spec", "fixtures", "edit_subscriber_unsuccessful_response.xml")),
       code: 200})
   end
+  let(:add_subscriber_successful_response) do
+    OpenStruct.new({
+      response: File.read(File.join("spec", "fixtures", "add_subscriber_successful_response.xml")),
+      code: 200})
+  end
+  let(:add_subscriber_unsuccessful_response) do
+    OpenStruct.new({
+      response: File.read(File.join("spec", "fixtures", "add_subscriber_unsuccessful_response.xml")),
+      code: 200})
+  end
 
   let(:params_class) { Params.new }
 
@@ -32,13 +42,45 @@ describe ExactTarget::Api do
 
   let(:exact_target) { ExactTarget::Api.new }
 
+  describe "#add_subscriber" do
+    context "successful response" do
+      before(:each) do
+        RestClient.stub(:post).and_return(add_subscriber_successful_response)
+      end
+
+      it "returns success code" do
+        response = exact_target.add_subscriber(params_class.add_params)
+        expect(response.code).to eq(200)
+      end
+
+      it "return a success message" do
+        response = exact_target.add_subscriber(params_class.add_params)
+        doc = Nokogiri::XML response.response
+        expect(doc.xpath("//subscriber/subscriber_info").text).to include("Subscriber was added/updated successfully")
+      end
+    end
+
+    context "unsuccessful response" do
+      before(:each) do
+        RestClient.stub(:post).and_return(add_subscriber_unsuccessful_response)
+      end
+
+      it "return an error message" do
+        params = params_class.add_params
+        response = exact_target.add_subscriber(params_class.add_params)
+        doc = Nokogiri::XML response.response
+        expect(doc.xpath("//subscriber/error_description").text).to include("The subscriber already exists in the list")
+      end
+    end
+  end
+
   describe "#find_subscriber" do
     context "successful response" do
       before(:each) do
         RestClient.stub(:post).and_return(find_subscriber_successful_response)
       end
 
-      it "returns succes code" do
+      it "returns success code" do
         params = { email: "bruce_wayne@example.com", attributes: {}}
         response = exact_target.find_subscriber(params)
         expect(response.code).to eq(200)

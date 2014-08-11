@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<exacttarget>
+  <system>
+    <subscriber>
+      <error>14</error>
+      <error_description>The subscriber already exists in the list</error_description>
+    </subscriber>
+  </system>
+</exacttarget>
