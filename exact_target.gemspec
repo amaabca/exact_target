@@ -30,5 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rest-client"
   spec.add_dependency "activesupport"
   spec.add_dependency "builder"
-
+  spec.add_dependency 'webmock'
+  spec.add_dependency 'crack'
+  spec.add_dependency 'hashie'
 end

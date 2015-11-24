@@ -32,20 +32,12 @@ describe ExactTarget::Api do
 
   let(:params_class) { Params.new }
 
-  let(:default_configuration) do
-    OpenStruct.new(
-      endpoint = "Secret_Society_of_Super_Villains_Endpoint",
-      username = "Edward_Nigma",
-      password = "Nygma",
-      list_id = "666")
-  end
-
   let(:exact_target) { ExactTarget::Api.new }
 
   describe "#add_subscriber" do
     context "successful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(add_subscriber_successful_response)
+        expect(RestClient).to receive(:post).and_return(add_subscriber_successful_response)
       end
 
       it "returns success code" do
@@ -62,7 +54,7 @@ describe ExactTarget::Api do
 
     context "unsuccessful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(add_subscriber_unsuccessful_response)
+        expect(RestClient).to receive(:post).and_return(add_subscriber_unsuccessful_response)
       end
 
       it "return an error message" do
@@ -77,7 +69,7 @@ describe ExactTarget::Api do
   describe "#find_subscriber" do
     context "successful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(find_subscriber_successful_response)
+        expect(RestClient).to receive(:post).and_return(find_subscriber_successful_response)
       end
 
       it "returns success code" do
@@ -96,7 +88,7 @@ describe ExactTarget::Api do
 
     context "unsuccessful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(find_subscriber_unsuccessful_response)
+        expect(RestClient).to receive(:post).and_return(find_subscriber_unsuccessful_response)
       end
 
       it "returns error message including list_id and email" do
@@ -111,7 +103,7 @@ describe ExactTarget::Api do
   describe "#edit_subscriber" do
     context "successful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(edit_subscriber_successful_response)
+        expect(RestClient).to receive(:post).and_return(edit_subscriber_successful_response)
       end
 
       it "return a success message" do
@@ -123,7 +115,7 @@ describe ExactTarget::Api do
 
     context "unsuccessful response" do
       before(:each) do
-        RestClient.stub(:post).and_return(edit_subscriber_unsuccessful_response)
+        expect(RestClient).to receive(:post).and_return(edit_subscriber_unsuccessful_response)
       end
 
       it "return an error message" do
