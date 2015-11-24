@@ -28,6 +28,9 @@ describe ExactTarget::SubscriptionManager do
       expect(subscription.enews).to eq '0'
       expect(subscription.travel_especials).to eq '1'
       expect(subscription.travel_weekly).to eq '1'
+      expect(subscription.personal_vehicle_reminder).to eq 'Estevez'
+      expect(subscription.business_vehicle_reminder).to eq 'My Company'
+      expect(subscription.associate_vehicle_reminder).to eq 'Additional Last Name'
     end
   end
 end
