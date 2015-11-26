@@ -3,3 +3,8 @@ require "active_support/all"
 require "exact_target/version"
 require "exact_target/configuration"
 require "exact_target/api"
+require 'active_record'
+require 'crack'
+require 'hashie'
+require "exact_target/subscriber"
+require "exact_target/subscription_manager"

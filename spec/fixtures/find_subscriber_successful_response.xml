@@ -16,9 +16,9 @@
       <AMA__TRAVEL__Weekly>1</AMA__TRAVEL__Weekly>
       <amadealsdiscounts>0</amadealsdiscounts>
       <AMA__INS__ENEWS>1</AMA__INS__ENEWS>
-      <personal_vehicle_reminder/>
-      <business_vehicle_reminder/>
-      <associate_vehicle_reminder/>
+      <personal_vehicle_reminder>Estevez</personal_vehicle_reminder>
+      <business_vehicle_reminder>My Company</business_vehicle_reminder>
+      <associate_vehicle_reminder>Additional Last Name</associate_vehicle_reminder>
       <road_trips_reminder/>
       <mail_financial>0</mail_financial>
       <fleet_contact>0</fleet_contact>
