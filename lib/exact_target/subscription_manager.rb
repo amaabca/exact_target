@@ -32,6 +32,7 @@ module ExactTarget
               AMA__eNEWS: subscriber.enews,
               AMA__TRAVEL__eSpecials: subscriber.travel_especials,
               AMA__TRAVEL__Weekly: subscriber.travel_weekly,
+              AMA__INS__ENEWS: subscriber.ins_enews,
               amadealsdiscounts: subscriber.deals_discounts,
               personal_vehicle_reminder: subscriber.personal_vehicle_reminder,
               business_vehicle_reminder: subscriber.business_vehicle_reminder,

@@ -15,6 +15,7 @@ describe ExactTarget::SubscriptionManager do
   let(:travel_especials) { '0' }
   let(:travel_weekly) { '1' }
   let(:deals_discounts) { '0' }
+  let(:ins_enews) { '1' }
   let(:personal_vehicle_reminder) { 'last name' }
   let(:business_vehicle_reminder) { 'business name' }
   let(:associate_vehicle_reminder) { 'other name' }
@@ -95,6 +96,7 @@ describe ExactTarget::SubscriptionManager do
   describe 'save subscription' do
     let(:subscriber) { ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
                                                      travel_weekly: travel_weekly, deals_discounts: deals_discounts,
+                                                     ins_enews: ins_enews,
                                                      personal_vehicle_reminder: personal_vehicle_reminder,
                                                      business_vehicle_reminder: business_vehicle_reminder,
                                                      associate_vehicle_reminder: associate_vehicle_reminder,
@@ -113,6 +115,7 @@ describe ExactTarget::SubscriptionManager do
                     AMA__eNEWS: enews,
                     AMA__TRAVEL__eSpecials: travel_especials,
                     AMA__TRAVEL__Weekly: travel_weekly,
+                    AMA__INS__ENEWS: ins_enews,
                     amadealsdiscounts: deals_discounts,
                     personal_vehicle_reminder: personal_vehicle_reminder,
                     business_vehicle_reminder: business_vehicle_reminder,
@@ -139,6 +142,7 @@ describe ExactTarget::SubscriptionManager do
                     AMA__eNEWS: enews,
                     AMA__TRAVEL__eSpecials: travel_especials,
                     AMA__TRAVEL__Weekly: travel_weekly,
+                    AMA__INS__ENEWS: ins_enews,
                     amadealsdiscounts: deals_discounts,
                     personal_vehicle_reminder: personal_vehicle_reminder,
                     business_vehicle_reminder: business_vehicle_reminder,
