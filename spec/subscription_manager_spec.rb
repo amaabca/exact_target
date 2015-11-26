@@ -20,12 +20,16 @@ describe ExactTarget::SubscriptionManager do
   let(:associate_vehicle_reminder) { 'other name' }
   let(:fleet_contact) { '1' }
 
+  let(:find_subscriber_successful_response) {
+    File.read(File.join('spec', 'fixtures', 'find_subscriber_successful_response.xml'))
+  }
+
+  let(:find_subscriber_unsuccessful_response) {
+    File.read(File.join('spec', 'fixtures', 'find_subscriber_unsuccessful_response.xml'))
+  }
+
   describe 'find subscriber by email' do
     context 'subscriber found' do
-      let(:find_subscriber_successful_response) {
-        File.read(File.join('spec', 'fixtures', 'find_subscriber_successful_response.xml'))
-      }
-
       before(:each) do
         WebMock::API.stub_request(:post, 'http://test_url/').to_return(body: find_subscriber_successful_response, status: 200)
       end
@@ -46,10 +50,6 @@ describe ExactTarget::SubscriptionManager do
     end
 
     context 'subscriber not found' do
-      let(:find_subscriber_unsuccessful_response) {
-        File.read(File.join('spec', 'fixtures', 'find_subscriber_unsuccessful_response.xml'))
-      }
-
       before(:each) do
         WebMock::API.stub_request(:post, 'http://test_url/').to_return(body: find_subscriber_unsuccessful_response, status: 200)
       end
@@ -70,37 +70,66 @@ describe ExactTarget::SubscriptionManager do
     end
   end
 
-  describe 'add subscription' do
+  describe 'exists' do
+    context 'subscriber exists' do
+      before(:each) do
+        WebMock::API.stub_request(:post, 'http://test_url/').to_return(body: find_subscriber_successful_response, status: 200)
+      end
 
-    it 'sends params with new record true' do
-      expect_any_instance_of(ExactTarget::Api).to receive(:add_subscriber).with(
-          {
-              email: email,
-              attributes: {
-                  new_record: true,
-                  AMA__eNEWS: enews,
-                  AMA__TRAVEL__eSpecials: travel_especials,
-                  AMA__TRAVEL__Weekly: travel_weekly,
-                  amadealsdiscounts: deals_discounts,
-                  personal_vehicle_reminder: personal_vehicle_reminder,
-                  business_vehicle_reminder: business_vehicle_reminder,
-                  associate_vehicle_reminder: associate_vehicle_reminder,
-                  fleet_contact: fleet_contact,
-                  email__address: email }
-          }
-      )
-
-      subscriber = ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
-                                                 travel_weekly: travel_weekly, deals_discounts: deals_discounts,
-                                                 personal_vehicle_reminder: personal_vehicle_reminder,
-                                                 business_vehicle_reminder: business_vehicle_reminder,
-                                                 associate_vehicle_reminder: associate_vehicle_reminder,
-                                                 fleet_contact: fleet_contact })
-
-      ExactTarget::SubscriptionManager.new.create(subscriber)
+      it 'returns true' do
+        expect(ExactTarget::SubscriptionManager.new.exists?(email)).to be_truthy
+      end
     end
 
-    describe 'update subscription' do
+    context 'subscriber does not exist' do
+      before(:each) do
+        WebMock::API.stub_request(:post, 'http://test_url/').to_return(body: find_subscriber_unsuccessful_response, status: 200)
+      end
+
+      it 'returns false' do
+        expect(ExactTarget::SubscriptionManager.new.exists?(email)).to be_falsey
+      end
+    end
+  end
+
+  describe 'save subscription' do
+    let(:subscriber) { ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
+                                                     travel_weekly: travel_weekly, deals_discounts: deals_discounts,
+                                                     personal_vehicle_reminder: personal_vehicle_reminder,
+                                                     business_vehicle_reminder: business_vehicle_reminder,
+                                                     associate_vehicle_reminder: associate_vehicle_reminder,
+                                                     fleet_contact: fleet_contact }) }
+    context 'subscriber does not exist in exact target' do
+      before do
+        expect_any_instance_of(ExactTarget::SubscriptionManager).to receive(:exists?).and_return(false)
+      end
+
+      it 'sends params with new record true' do
+        expect_any_instance_of(ExactTarget::Api).to receive(:add_subscriber).with(
+            {
+                email: email,
+                attributes: {
+                    new_record: true,
+                    AMA__eNEWS: enews,
+                    AMA__TRAVEL__eSpecials: travel_especials,
+                    AMA__TRAVEL__Weekly: travel_weekly,
+                    amadealsdiscounts: deals_discounts,
+                    personal_vehicle_reminder: personal_vehicle_reminder,
+                    business_vehicle_reminder: business_vehicle_reminder,
+                    associate_vehicle_reminder: associate_vehicle_reminder,
+                    fleet_contact: fleet_contact,
+                    email__address: email }
+            }
+        )
+        ExactTarget::SubscriptionManager.new.save(subscriber)
+      end
+    end
+
+    context 'subscriber already exists in exact target' do
+      before do
+        expect_any_instance_of(ExactTarget::SubscriptionManager).to receive(:exists?).and_return(true)
+      end
+
       it 'sends params with new record true' do
         expect_any_instance_of(ExactTarget::Api).to receive(:edit_subscriber).with(
             {
@@ -119,14 +148,7 @@ describe ExactTarget::SubscriptionManager do
             }
         )
 
-        subscriber = ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
-                                                   travel_weekly: travel_weekly, deals_discounts: deals_discounts,
-                                                   personal_vehicle_reminder: personal_vehicle_reminder,
-                                                   business_vehicle_reminder: business_vehicle_reminder,
-                                                   associate_vehicle_reminder: associate_vehicle_reminder,
-                                                   fleet_contact: fleet_contact })
-
-        ExactTarget::SubscriptionManager.new.update(subscriber)
+        ExactTarget::SubscriptionManager.new.save(subscriber)
       end
     end
   end

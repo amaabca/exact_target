@@ -8,13 +8,17 @@ module ExactTarget
       build_subscription(email, response.exacttarget.system.subscriber)
     end
 
-    def create(subscriber)
-      ExactTarget::Api.new.add_subscriber(prepare_request(subscriber, true))
-      find(subscriber.email)
+    def exists?(email)
+      response = crackie_hash(ExactTarget::Api.new.find_subscriber({ email: email }))
+      response.exacttarget.system.subscriber[:error].nil?
     end
 
-    def update(subscriber)
-      ExactTarget::Api.new.edit_subscriber(prepare_request(subscriber))
+    def save(subscriber)
+      if exists?(subscriber.email)
+        ExactTarget::Api.new.edit_subscriber(prepare_request(subscriber))
+      else
+        ExactTarget::Api.new.add_subscriber(prepare_request(subscriber, true))
+      end
       find(subscriber.email)
     end
 
