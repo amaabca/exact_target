@@ -22,25 +22,8 @@ module ExactTarget
       find(subscriber.email)
     end
 
-    def build_subscription(email, args)
-      if args[:error].nil?
-        params = { email: args[:Email__Address],
-                   travel_weekly: args[:AMA__TRAVEL__Weekly],
-                   enews: args[:AMA__eNEWS],
-                   travel_especials: args[:AMA__TRAVEL__eSpecials],
-                   ins_enews: args[:AMA__INS__ENEWS],
-                   deals_discounts: args[:amadealsdiscounts],
-                   fleet_contact: args[:fleet_contact],
-                   personal_vehicle_reminder: args[:personal_vehicle_reminder],
-                   business_vehicle_reminder: args[:business_vehicle_reminder],
-                   associate_vehicle_reminder: args[:associate_vehicle_reminder] }
-      else
-        params = { email: email }
-      end
-      ExactTarget::Subscriber.new(params)
-    end
+  private
 
-    private
     def prepare_request(subscriber, new_record = false)
       {
           email: subscriber.email,
@@ -56,6 +39,25 @@ module ExactTarget
               fleet_contact: subscriber.fleet_contact,
               email__address: subscriber.email }
       }
+    end
+
+    def build_subscription(email, args)
+      if args[:error].nil?
+        params = { email: args[:Email__Address],
+                   travel_weekly: args[:AMA__TRAVEL__Weekly],
+                   enews: args[:AMA__eNEWS],
+                   travel_especials: args[:AMA__TRAVEL__eSpecials],
+                   ins_enews: args[:AMA__INS__ENEWS],
+                   deals_discounts: args[:amadealsdiscounts],
+                   fleet_contact: args[:fleet_contact],
+                   personal_vehicle_reminder: args[:personal_vehicle_reminder],
+                   business_vehicle_reminder: args[:business_vehicle_reminder],
+                   associate_vehicle_reminder: args[:associate_vehicle_reminder] }
+      else
+        params = { email: email }
+      end
+
+      ExactTarget::Subscriber.new(params)
     end
 
     def crackie_hash(xml)
