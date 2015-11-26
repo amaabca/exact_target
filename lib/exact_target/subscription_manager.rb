@@ -1,16 +1,8 @@
-require 'crack'
-require 'hashie'
-
 module ExactTarget
   class SubscriptionManager
     def find(email)
       response = crackie_hash(ExactTarget::Api.new.find_subscriber({ email: email }))
       build_subscription(email, response.exacttarget.system.subscriber)
-    end
-
-    def exists?(email)
-      response = crackie_hash(ExactTarget::Api.new.find_subscriber({ email: email }))
-      response.exacttarget.system.subscriber[:error].nil?
     end
 
     def save(subscriber)
@@ -23,6 +15,11 @@ module ExactTarget
     end
 
   private
+
+    def exists?(email)
+      response = crackie_hash(ExactTarget::Api.new.find_subscriber({ email: email }))
+      response.exacttarget.system.subscriber[:error].nil?
+    end
 
     def prepare_request(subscriber, new_record = false)
       {

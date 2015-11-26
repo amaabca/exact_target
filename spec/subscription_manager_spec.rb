@@ -78,7 +78,7 @@ describe ExactTarget::SubscriptionManager do
       end
 
       it 'returns true' do
-        expect(ExactTarget::SubscriptionManager.new.exists?(email)).to be_truthy
+        expect(ExactTarget::SubscriptionManager.new.send(:exists?, email)).to be_truthy
       end
     end
 
@@ -88,7 +88,7 @@ describe ExactTarget::SubscriptionManager do
       end
 
       it 'returns false' do
-        expect(ExactTarget::SubscriptionManager.new.exists?(email)).to be_falsey
+        expect(ExactTarget::SubscriptionManager.new.send(:exists?, email)).to be_falsey
       end
     end
   end

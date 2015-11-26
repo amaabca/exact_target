@@ -1,5 +1,3 @@
-require 'active_record'
-
 module ExactTarget
   class Subscriber
     include ActiveModel::Model
