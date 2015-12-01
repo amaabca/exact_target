@@ -31,6 +31,7 @@ module ExactTarget
               AMA__TRAVEL__Weekly: subscriber.travel_weekly,
               AMA__INS__ENEWS: subscriber.ins_enews,
               amadealsdiscounts: subscriber.deals_discounts,
+              New__Member__Series: subscriber.new_member_series,
               personal_vehicle_reminder: subscriber.personal_vehicle_reminder,
               business_vehicle_reminder: subscriber.business_vehicle_reminder,
               associate_vehicle_reminder: subscriber.associate_vehicle_reminder,
@@ -48,6 +49,7 @@ module ExactTarget
                    ins_enews: args[:AMA__INS__ENEWS],
                    deals_discounts: args[:amadealsdiscounts],
                    fleet_contact: args[:fleet_contact],
+                   new_member_series: args[:New__Member__Series],
                    personal_vehicle_reminder: args[:personal_vehicle_reminder],
                    business_vehicle_reminder: args[:business_vehicle_reminder],
                    associate_vehicle_reminder: args[:associate_vehicle_reminder] }
