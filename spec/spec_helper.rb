@@ -9,7 +9,7 @@ require 'webmock'
 require ::File.expand_path("fixtures/params.rb", File.dirname(__FILE__))
 Coveralls.wear!
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
 ]
