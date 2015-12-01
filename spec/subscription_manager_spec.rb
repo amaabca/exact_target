@@ -16,6 +16,7 @@ describe ExactTarget::SubscriptionManager do
   let(:travel_weekly) { '1' }
   let(:deals_discounts) { '0' }
   let(:ins_enews) { '1' }
+  let(:new_member_series) { '1' }
   let(:personal_vehicle_reminder) { 'last name' }
   let(:business_vehicle_reminder) { 'business name' }
   let(:associate_vehicle_reminder) { 'other name' }
@@ -44,6 +45,7 @@ describe ExactTarget::SubscriptionManager do
         expect(subscription.enews).to eq '0'
         expect(subscription.travel_especials).to eq '1'
         expect(subscription.travel_weekly).to eq '1'
+        expect(subscription.new_member_series).to eq '1'
         expect(subscription.personal_vehicle_reminder).to eq 'Estevez'
         expect(subscription.business_vehicle_reminder).to eq 'My Company'
         expect(subscription.associate_vehicle_reminder).to eq 'Additional Last Name'
@@ -64,6 +66,7 @@ describe ExactTarget::SubscriptionManager do
         expect(subscription.enews).to eq nil
         expect(subscription.travel_especials).to eq nil
         expect(subscription.travel_weekly).to eq nil
+        expect(subscription.new_member_series).to eq nil
         expect(subscription.personal_vehicle_reminder).to eq nil
         expect(subscription.business_vehicle_reminder).to eq nil
         expect(subscription.associate_vehicle_reminder).to eq nil
@@ -96,7 +99,7 @@ describe ExactTarget::SubscriptionManager do
   describe 'save subscription' do
     let(:subscriber) { ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
                                                      travel_weekly: travel_weekly, deals_discounts: deals_discounts,
-                                                     ins_enews: ins_enews,
+                                                     ins_enews: ins_enews, new_member_series: new_member_series,
                                                      personal_vehicle_reminder: personal_vehicle_reminder,
                                                      business_vehicle_reminder: business_vehicle_reminder,
                                                      associate_vehicle_reminder: associate_vehicle_reminder,
@@ -117,6 +120,7 @@ describe ExactTarget::SubscriptionManager do
                     AMA__TRAVEL__Weekly: travel_weekly,
                     AMA__INS__ENEWS: ins_enews,
                     amadealsdiscounts: deals_discounts,
+                    New__Member__Series: new_member_series,
                     personal_vehicle_reminder: personal_vehicle_reminder,
                     business_vehicle_reminder: business_vehicle_reminder,
                     associate_vehicle_reminder: associate_vehicle_reminder,
@@ -144,6 +148,7 @@ describe ExactTarget::SubscriptionManager do
                     AMA__TRAVEL__Weekly: travel_weekly,
                     AMA__INS__ENEWS: ins_enews,
                     amadealsdiscounts: deals_discounts,
+                    New__Member__Series: new_member_series,
                     personal_vehicle_reminder: personal_vehicle_reminder,
                     business_vehicle_reminder: business_vehicle_reminder,
                     associate_vehicle_reminder: associate_vehicle_reminder,
