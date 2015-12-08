@@ -9,5 +9,9 @@ module ExactTarget
     def save
       SubscriptionManager.new.save(self)
     end
+
+    def sign_up_for_vehicle_reminder?
+      personal_vehicle_reminder.present? || business_vehicle_reminder.present? || associate_vehicle_reminder.present?
+    end
   end
 end
