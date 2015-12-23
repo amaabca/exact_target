@@ -72,6 +72,19 @@ describe ExactTarget::SubscriptionManager do
         expect(subscription.associate_vehicle_reminder).to eq nil
       end
     end
+
+    context 'exact target returns invalid response' do
+      before(:each) do
+        xml = "<exacttarget><system><subscriber></subscriber></system></exacttarget>"
+        # expect(RestClient).to receive(:post).at_least(:once).and_return(xml)
+        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: xml, status: 200)
+      end
+
+      it 'creates basic subscription model' do
+        subscription = ExactTarget::SubscriptionManager.new.find('bruce_wayne@example.com')
+        expect(subscription.email).to eq 'bruce_wayne@example.com'
+      end
+    end
   end
 
   describe 'exists' do

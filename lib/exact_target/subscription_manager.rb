@@ -41,7 +41,7 @@ module ExactTarget
     end
 
     def build_subscription(email, args)
-      if args[:error].nil?
+      if args && args[:error].nil?
         params = { email: args[:Email__Address],
                    travel_weekly: args[:AMA__TRAVEL__Weekly],
                    enews: args[:AMA__eNEWS],
