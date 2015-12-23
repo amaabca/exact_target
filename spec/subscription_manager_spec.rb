@@ -76,7 +76,6 @@ describe ExactTarget::SubscriptionManager do
     context 'exact target returns invalid response' do
       before(:each) do
         xml = "<exacttarget><system><subscriber></subscriber></system></exacttarget>"
-        # expect(RestClient).to receive(:post).at_least(:once).and_return(xml)
         WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: xml, status: 200)
       end
 
