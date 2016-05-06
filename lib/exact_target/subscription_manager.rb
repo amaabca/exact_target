@@ -23,36 +23,49 @@ module ExactTarget
 
     def prepare_request(subscriber, new_record = false)
       {
-          email: subscriber.email,
-          attributes: {
-              new_record: new_record,
-              AMA__eNEWS: subscriber.enews,
-              AMA__TRAVEL__eSpecials: subscriber.travel_especials,
-              AMA__TRAVEL__Weekly: subscriber.travel_weekly,
-              AMA__INS__ENEWS: subscriber.ins_enews,
-              amadealsdiscounts: subscriber.deals_discounts,
-              New__Member__Series: subscriber.new_member_series,
-              personal_vehicle_reminder: subscriber.personal_vehicle_reminder,
-              business_vehicle_reminder: subscriber.business_vehicle_reminder,
-              associate_vehicle_reminder: subscriber.associate_vehicle_reminder,
-              fleet_contact: subscriber.fleet_contact,
-              email__address: subscriber.email }
+        email: subscriber.email,
+        attributes: {
+          new_record: new_record,
+          AMA__eNEWS: subscriber.enews,
+          AMA__TRAVEL__eSpecials: subscriber.travel_especials,
+          AMA__TRAVEL__Weekly: subscriber.travel_weekly,
+          AMA__INS__ENEWS: subscriber.ins_enews,
+          amadealsdiscounts: subscriber.deals_discounts,
+          New__Member__Series: subscriber.new_member_series,
+          personal_vehicle_reminder: subscriber.personal_vehicle_reminder,
+          business_vehicle_reminder: subscriber.business_vehicle_reminder,
+          associate_vehicle_reminder: subscriber.associate_vehicle_reminder,
+          fleet_contact: subscriber.fleet_contact,
+          email__address: subscriber.email,
+          ama_vr_reminder_email: subscriber.vr_reminder_email,
+          ama_vr_reminder_sms: subscriber.vr_reminder_sms,
+          ama_vr_reminder_autocall: subscriber.vr_reminder_autocall,
+          cell_phone_number: subscriber.cell_phone_number,
+          phone_number: subscriber.phone_number
+        }
       }
     end
 
     def build_subscription(email, args)
       if args && args[:error].nil?
-        params = { email: args[:Email__Address],
-                   travel_weekly: args[:AMA__TRAVEL__Weekly],
-                   enews: args[:AMA__eNEWS],
-                   travel_especials: args[:AMA__TRAVEL__eSpecials],
-                   ins_enews: args[:AMA__INS__ENEWS],
-                   deals_discounts: args[:amadealsdiscounts],
-                   fleet_contact: args[:fleet_contact],
-                   new_member_series: args[:New__Member__Series],
-                   personal_vehicle_reminder: args[:personal_vehicle_reminder],
-                   business_vehicle_reminder: args[:business_vehicle_reminder],
-                   associate_vehicle_reminder: args[:associate_vehicle_reminder] }
+        params = {
+          email: args[:Email__Address],
+          travel_weekly: args[:AMA__TRAVEL__Weekly],
+          enews: args[:AMA__eNEWS],
+          travel_especials: args[:AMA__TRAVEL__eSpecials],
+          ins_enews: args[:AMA__INS__ENEWS],
+          deals_discounts: args[:amadealsdiscounts],
+          fleet_contact: args[:fleet_contact],
+          new_member_series: args[:New__Member__Series],
+          personal_vehicle_reminder: args[:personal_vehicle_reminder],
+          business_vehicle_reminder: args[:business_vehicle_reminder],
+          associate_vehicle_reminder: args[:associate_vehicle_reminder],
+          vr_reminder_email: args[:ama_vr_reminder_email],
+          vr_reminder_sms: args[:ama_vr_reminder_sms],
+          vr_reminder_autocall: args[:ama_vr_reminder_autocall],
+          cell_phone_number: args[:cell_phone_number],
+          phone_number: args[:phone_number]
+        }
       else
         params = { email: email }
       end
