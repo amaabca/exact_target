@@ -21,6 +21,11 @@ describe ExactTarget::SubscriptionManager do
   let(:business_vehicle_reminder) { 'business name' }
   let(:associate_vehicle_reminder) { 'other name' }
   let(:fleet_contact) { '1' }
+  let(:ama_vr_reminder_email) { '0' }
+  let(:ama_vr_reminder_sms) { '0' }
+  let(:ama_vr_reminder_autocall) { '1' }
+  let(:cell_phone_number) { '5551234666' }
+  let(:phone_number) { '5556661234' }
 
   let(:find_subscriber_successful_response) {
     File.read(File.join('spec', 'fixtures', 'find_subscriber_successful_response.xml'))
@@ -49,6 +54,11 @@ describe ExactTarget::SubscriptionManager do
         expect(subscription.personal_vehicle_reminder).to eq 'Estevez'
         expect(subscription.business_vehicle_reminder).to eq 'My Company'
         expect(subscription.associate_vehicle_reminder).to eq 'Additional Last Name'
+        expect(subscription.vr_reminder_email).to eq '1'
+        expect(subscription.vr_reminder_sms).to eq '1'
+        expect(subscription.vr_reminder_autocall).to eq '0'
+        expect(subscription.cell_phone_number).to eq '7806661234'
+        expect(subscription.phone_number).to eq '7801234666'
       end
     end
 
@@ -70,6 +80,11 @@ describe ExactTarget::SubscriptionManager do
         expect(subscription.personal_vehicle_reminder).to eq nil
         expect(subscription.business_vehicle_reminder).to eq nil
         expect(subscription.associate_vehicle_reminder).to eq nil
+        expect(subscription.vr_reminder_email).to eq nil
+        expect(subscription.vr_reminder_sms).to eq nil
+        expect(subscription.vr_reminder_autocall).to eq nil
+        expect(subscription.cell_phone_number).to eq nil
+        expect(subscription.phone_number).to eq nil
       end
     end
 
@@ -109,13 +124,26 @@ describe ExactTarget::SubscriptionManager do
   end
 
   describe 'save subscription' do
-    let(:subscriber) { ExactTarget::Subscriber.new({ email: email, enews: enews, travel_especials: travel_especials,
-                                                     travel_weekly: travel_weekly, deals_discounts: deals_discounts,
-                                                     ins_enews: ins_enews, new_member_series: new_member_series,
-                                                     personal_vehicle_reminder: personal_vehicle_reminder,
-                                                     business_vehicle_reminder: business_vehicle_reminder,
-                                                     associate_vehicle_reminder: associate_vehicle_reminder,
-                                                     fleet_contact: fleet_contact }) }
+    let(:subscriber) {
+      ExactTarget::Subscriber.new({
+        email: email,
+        enews: enews,
+        travel_especials: travel_especials,
+        travel_weekly: travel_weekly,
+        deals_discounts: deals_discounts,
+        ins_enews: ins_enews,
+        new_member_series: new_member_series,
+        personal_vehicle_reminder: personal_vehicle_reminder,
+        business_vehicle_reminder: business_vehicle_reminder,
+        associate_vehicle_reminder: associate_vehicle_reminder,
+        fleet_contact: fleet_contact,
+        vr_reminder_email: ama_vr_reminder_email,
+        vr_reminder_sms: ama_vr_reminder_sms,
+        vr_reminder_autocall: ama_vr_reminder_autocall,
+        cell_phone_number: cell_phone_number,
+        phone_number: phone_number
+      })
+    }
     context 'subscriber does not exist in exact target' do
       before do
         expect_any_instance_of(ExactTarget::SubscriptionManager).to receive(:exists?).and_return(false)
@@ -123,22 +151,28 @@ describe ExactTarget::SubscriptionManager do
 
       it 'sends params with new record true' do
         expect_any_instance_of(ExactTarget::Api).to receive(:add_subscriber).with(
-            {
-                email: email,
-                attributes: {
-                    new_record: true,
-                    AMA__eNEWS: enews,
-                    AMA__TRAVEL__eSpecials: travel_especials,
-                    AMA__TRAVEL__Weekly: travel_weekly,
-                    AMA__INS__ENEWS: ins_enews,
-                    amadealsdiscounts: deals_discounts,
-                    New__Member__Series: new_member_series,
-                    personal_vehicle_reminder: personal_vehicle_reminder,
-                    business_vehicle_reminder: business_vehicle_reminder,
-                    associate_vehicle_reminder: associate_vehicle_reminder,
-                    fleet_contact: fleet_contact,
-                    email__address: email }
+          {
+            email: email,
+            attributes: {
+              new_record: true,
+              AMA__eNEWS: enews,
+              AMA__TRAVEL__eSpecials: travel_especials,
+              AMA__TRAVEL__Weekly: travel_weekly,
+              AMA__INS__ENEWS: ins_enews,
+              amadealsdiscounts: deals_discounts,
+              New__Member__Series: new_member_series,
+              personal_vehicle_reminder: personal_vehicle_reminder,
+              business_vehicle_reminder: business_vehicle_reminder,
+              associate_vehicle_reminder: associate_vehicle_reminder,
+              fleet_contact: fleet_contact,
+              email__address: email,
+              ama_vr_reminder_email: ama_vr_reminder_email,
+              ama_vr_reminder_sms: ama_vr_reminder_sms,
+              ama_vr_reminder_autocall: ama_vr_reminder_autocall,
+              cell_phone_number: cell_phone_number,
+              phone_number: phone_number
             }
+          }
         )
         ExactTarget::SubscriptionManager.new.save(subscriber)
       end
@@ -151,24 +185,29 @@ describe ExactTarget::SubscriptionManager do
 
       it 'sends params with new record true' do
         expect_any_instance_of(ExactTarget::Api).to receive(:edit_subscriber).with(
-            {
-                email: email,
-                attributes: {
-                    new_record: false,
-                    AMA__eNEWS: enews,
-                    AMA__TRAVEL__eSpecials: travel_especials,
-                    AMA__TRAVEL__Weekly: travel_weekly,
-                    AMA__INS__ENEWS: ins_enews,
-                    amadealsdiscounts: deals_discounts,
-                    New__Member__Series: new_member_series,
-                    personal_vehicle_reminder: personal_vehicle_reminder,
-                    business_vehicle_reminder: business_vehicle_reminder,
-                    associate_vehicle_reminder: associate_vehicle_reminder,
-                    fleet_contact: fleet_contact,
-                    email__address: email }
+          {
+            email: email,
+            attributes: {
+              new_record: false,
+              AMA__eNEWS: enews,
+              AMA__TRAVEL__eSpecials: travel_especials,
+              AMA__TRAVEL__Weekly: travel_weekly,
+              AMA__INS__ENEWS: ins_enews,
+              amadealsdiscounts: deals_discounts,
+              New__Member__Series: new_member_series,
+              personal_vehicle_reminder: personal_vehicle_reminder,
+              business_vehicle_reminder: business_vehicle_reminder,
+              associate_vehicle_reminder: associate_vehicle_reminder,
+              fleet_contact: fleet_contact,
+              email__address: email,
+              ama_vr_reminder_email: ama_vr_reminder_email,
+              ama_vr_reminder_sms: ama_vr_reminder_sms,
+              ama_vr_reminder_autocall: ama_vr_reminder_autocall,
+              cell_phone_number: cell_phone_number,
+              phone_number: phone_number
             }
+          }
         )
-
         ExactTarget::SubscriptionManager.new.save(subscriber)
       end
     end

@@ -19,6 +19,11 @@
       <personal_vehicle_reminder>Estevez</personal_vehicle_reminder>
       <business_vehicle_reminder>My Company</business_vehicle_reminder>
       <associate_vehicle_reminder>Additional Last Name</associate_vehicle_reminder>
+      <ama_vr_reminder_email>1</ama_vr_reminder_email>
+      <ama_vr_reminder_sms>1</ama_vr_reminder_sms>
+      <ama_vr_reminder_autocall>0</ama_vr_reminder_autocall>
+      <cell_phone_number>7806661234</cell_phone_number>
+      <phone_number>7801234666</phone_number>
       <road_trips_reminder/>
       <mail_financial>0</mail_financial>
       <fleet_contact>0</fleet_contact>
