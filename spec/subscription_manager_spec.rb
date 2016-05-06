@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 describe ExactTarget::SubscriptionManager do
+  let(:endpoint) { 'http://testurl.example.com' }
+
   before do
     ExactTarget.configure do |c|
-      c.endpoint = 'testurl'
+      c.endpoint = endpoint
       c.username = 'test'
       c.password = 'test_pw'
       c.list_id = '123'
@@ -38,7 +40,7 @@ describe ExactTarget::SubscriptionManager do
   describe 'find subscriber by email' do
     context 'subscriber found' do
       before(:each) do
-        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: find_subscriber_successful_response, status: 200)
+        WebMock::API.stub_request(:post, endpoint).to_return(body: find_subscriber_successful_response, status: 200)
       end
 
       it 'parses subscription attributes' do
@@ -64,7 +66,7 @@ describe ExactTarget::SubscriptionManager do
 
     context 'subscriber not found' do
       before(:each) do
-        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: find_subscriber_unsuccessful_response, status: 200)
+        WebMock::API.stub_request(:post, endpoint).to_return(body: find_subscriber_unsuccessful_response, status: 200)
       end
 
       it 'parses subscription attributes' do
@@ -91,7 +93,7 @@ describe ExactTarget::SubscriptionManager do
     context 'exact target returns invalid response' do
       before(:each) do
         xml = "<exacttarget><system><subscriber></subscriber></system></exacttarget>"
-        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: xml, status: 200)
+        WebMock::API.stub_request(:post, endpoint).to_return(body: xml, status: 200)
       end
 
       it 'creates basic subscription model' do
@@ -104,7 +106,7 @@ describe ExactTarget::SubscriptionManager do
   describe 'exists' do
     context 'subscriber exists' do
       before(:each) do
-        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: find_subscriber_successful_response, status: 200)
+        WebMock::API.stub_request(:post, endpoint).to_return(body: find_subscriber_successful_response, status: 200)
       end
 
       it 'returns true' do
@@ -114,7 +116,7 @@ describe ExactTarget::SubscriptionManager do
 
     context 'subscriber does not exist' do
       before(:each) do
-        WebMock::API.stub_request(:post, 'http://testurl/').to_return(body: find_subscriber_unsuccessful_response, status: 200)
+        WebMock::API.stub_request(:post, endpoint).to_return(body: find_subscriber_unsuccessful_response, status: 200)
       end
 
       it 'returns false' do
